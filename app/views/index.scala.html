@@ -19,14 +19,18 @@
 			<div class="span4">
 				
 				@form(action = routes.Index.signIn(), 'class -> "well form-inline", 'style->"padding-left:45px") {
-        			<input class="span3" id="userName" name="userName" placeholder="e-mail address" value="">
-        			<input class="span2" id="password" type="password" name="password" placeholder="Password" value="">
-       				<button type="submit" class="btn btn-primary">Sign in</button>
+					<input class="span3 loginInput" id="userName" name="userName" placeholder="e-mail address" value="">
+					<table>		
+	        			<tr>
+		        			<td><input class="span2 loginInput" id="password" type="password" name="password" placeholder="Password" value=""></td>
+		       				<td><button type="submit" class="btn btn-primary">Sign in</button></td>
+	       				</tr>
+       				</table>
     			}
 				@form(action = routes.Index.signUp(), 'class -> "well form-inline", 'style->"padding-left:45px") {
-        			<input type="text" name="userName" class="span2" placeholder="Username" value="">
-        			<input type="text" name="email" class="span2" placeholder="e-mail address" value="">
-					<input type="password" name="password" class="span2" placeholder="Password" value="">
+        			<input type="text" name="userName" class="span3 loginInput" placeholder="Username" value="">
+        			<input type="text" name="email" class="span3 loginInput" placeholder="e-mail address" value="">
+					<input type="password" name="password" class="span3 loginInput" placeholder="Password" value="">
 					<button type="submit" style="width275px"" class="btn btn-primary">Sign up for FlatFrog</button>
 				}
 				</form>
