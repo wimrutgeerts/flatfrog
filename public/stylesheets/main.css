@@ -3,5 +3,10 @@
 }
 
 .welcomePage {
-	background-image:url('images/houses.jpg');
+	background-image:url('../images/houses.jpg');
+	height:266px;
+	background-size: 370px 266px;
+	background-repeat: no-repeat;	
+	padding-left: 3px;
+	
 }
