@@ -7,7 +7,7 @@ import views.html.index;
 public class Index {
 
 	public static Result index() {
-		return Results.ok(index.render("Your new application is ready."));
+		return Results.ok(index.render());
 	}
 
 	public static Result signIn() {
