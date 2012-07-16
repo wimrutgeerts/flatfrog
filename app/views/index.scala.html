@@ -11,14 +11,14 @@
 				<p>Take control over your pictures.</p>
 			</div>
 			<div class="span3">
-				@form(action = routes.Index.signIn(), 'class -> "well") {
-					<input type="text" placeholder="Email" />
+				@form(action = routes.Application.authenticate(), 'class -> "well") {
+					<input type="email" placeholder="Email" />
 					<input type="password" class="input-medium" placeholder="Password" />
 					<button type="submit" class="btn btn-primary" style="vertical-align:top;">Sign in</button>
     			}
-				@form(action = routes.Index.signUp(), 'class -> "well") {
+				@form(action = routes.Application.signup(), 'class -> "well") {
         			<input type="text" placeholder="Username" />
-        			<input type="text" placeholder="Email" />
+        			<input type="email" placeholder="Email" />
 					<input type="password" placeholder="Password" />
 					<button type="submit" class="btn btn-primary">Sign up for FlatFrog</button>
 				}
