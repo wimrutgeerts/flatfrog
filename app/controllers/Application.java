@@ -8,7 +8,7 @@ import views.html.index;
 public class Application extends Controller {
 
 	public static Result index() {
-		return Results.ok(index.render("Your new application is ready."));
+		return Results.ok(index.render());
 	}
 
 	public static Result authenticate() {
