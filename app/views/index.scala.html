@@ -1,3 +1,5 @@
+@(signupForm: Form[User])
+
 @import helper._
 
 @main("Welcome to FlatFrog") {
@@ -15,13 +17,43 @@
 					<button type="submit" class="btn btn-primary" style="vertical-align:top;">Sign in</button>
     			}
 				@form(action = routes.Application.signup(), 'class -> "well") {
-        			<input type="text" placeholder="Username" />
-        			<input type="email" placeholder="Email" />
-					<input type="password" placeholder="Password" />
+					<h3>New To FlatFrog?</h3>
+					<h4>Sign up now!</h4>
+        			<input type="text" placeholder="Username" value="@signupForm("userName").value"/>
+        			<input type="email" placeholder="Email" value="@signupForm("password").value"/>
+					<input type="password" placeholder="Password" value="@signupForm("emailAddress").value"/>
+					<label class="checkbox">
+						<input type="checkbox" value="@signupForm("accept")"> Accept terms and conditions
+					</label> 
+					<a data-toggle="modal" href="#termsAndConditions">Read terms and conditions</a>
 					<button type="submit" class="btn btn-primary">Sign up for FlatFrog</button>
 				}
 			</div>
 		</div>
 	</div>
 </div>
+
+<div class="modal hide fade" id="termsAndConditions">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">x</button>
+    <h3>Terms and conditions</h3>
+  </div>
+  <div class="modal-body">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a nulla at turpis ultricies tincidunt. Nunc imperdiet consectetur nibh, a pulvinar purus rutrum vitae. Fusce facilisis, felis nec bibendum laoreet, mauris tortor euismod purus, at accumsan ante urna sit amet elit. Nam ut magna tellus. Nullam magna arcu, pulvinar a placerat sit amet, laoreet ut libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ultrices aliquam condimentum. Vivamus hendrerit varius lorem egestas varius. Quisque tristique placerat nisi, vel adipiscing mauris dictum id.
+
+	Praesent gravida pellentesque massa non blandit. Nam et ante vitae metus porta vestibulum sed ac dolor. Nam feugiat molestie velit sit amet lobortis. Vivamus eros sem, sollicitudin at euismod id, imperdiet at tortor. Aenean auctor est at odio tincidunt fringilla. Ut faucibus, est vitae tempor volutpat, velit justo malesuada tellus, sed pulvinar justo quam ut lectus. Vestibulum eu dignissim tortor. Nullam ut erat in tortor dapibus vulputate eu vel erat. Quisque molestie justo et sem cursus egestas.
+	
+	Proin accumsan urna sagittis urna cursus vel congue risus placerat. Vivamus hendrerit, lorem eget congue eleifend, justo mi consequat nunc, ut adipiscing nisi neque non massa. Morbi tempus convallis enim sit amet venenatis. Cras at mi mi, vel interdum nisi. Vivamus non leo sed dui mollis pharetra at eu libero. Duis porta, tortor eleifend porttitor tincidunt, odio dolor fermentum mauris, non luctus lacus lectus vitae diam. Curabitur semper pharetra magna, sed semper felis condimentum nec. Mauris varius blandit dignissim. Maecenas convallis nisi sit amet arcu elementum et tristique mauris cursus.
+	
+	Proin sapien lorem, luctus et volutpat in, consectetur eget tortor. Mauris vitae elit elit, id dignissim tortor. Proin volutpat pretium nibh eget cursus. Duis sed porta lorem. Vivamus non augue vitae sem rutrum vulputate ac nec quam. Morbi varius diam id dui mollis malesuada. Nulla quis rhoncus nibh. Nam viverra dignissim tempus. Sed turpis neque, gravida nec pellentesque a, posuere et tellus. Integer vulputate, est in pellentesque facilisis, felis erat accumsan tellus, et auctor dolor nulla nec lacus. Cras vitae placerat tellus. Quisque quis malesuada nisl.
+	
+	Sed ac ligula nulla, sit amet vehicula elit. Integer ullamcorper commodo elit et sagittis. Integer accumsan lacus nec massa cursus vestibulum. Ut quis tortor felis, eget pulvinar velit. Etiam magna lectus, tincidunt fermentum adipiscing vitae, egestas id lacus. Sed arcu justo, consectetur ac porta ut, imperdiet a neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla lacus leo, aliquet quis sodales quis, mattis ornare ligula. Duis et nunc ut mauris egestas venenatis non eu lorem. Etiam facilisis, ante et rhoncus lobortis, magna mi varius neque, molestie placerat enim nunc vel justo. Mauris nec nisi ac ante condimentum mollis. Fusce luctus hendrerit sagittis. Aenean tortor nulla, lacinia eget hendrerit a, mollis non eros. Cras non dui et leo tincidunt consectetur id id diam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam quam mi, sagittis sed volutpat eget, blandit in nisi.</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+
 }
+
+
