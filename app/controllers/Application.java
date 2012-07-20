@@ -7,18 +7,21 @@ import java.util.UUID;
 import org.apache.commons.mail.EmailException;
 
 import models.User;
+import models.utils.AppException;
 import models.utils.Hash;
 import models.utils.Mail;
 import play.Configuration;
 import play.Logger;
 import play.data.Form;
 import play.data.validation.Constraints;
+import play.data.validation.Constraints.Required;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import views.html.index;
 import views.html.created;
+import views.html.confirm;
 
 public class Application extends Controller {
 
@@ -35,7 +38,7 @@ public class Application extends Controller {
 	public static Result signup() {
 		 Form<Application.Register> registerForm = form(Application.Register.class).bindFromRequest();
 
-	        if (registerForm.hasErrors()) {
+		 if (registerForm.hasErrors()) {
 	            return badRequest(index.render(registerForm));
 	        }
 
@@ -79,40 +82,14 @@ public class Application extends Controller {
 	
 	 public static class Register {
 
-	        @Constraints.Required
-	        public String email;
+		@Required
+		public String email;
+		@Required
+		public String inputPassword;
+		@Required
+		public String accept;
 
-	        @Constraints.Required
-	        public String inputPassword;
-	        
-	        @Constraints.Required
-	        public Boolean accept;
-
-	        /**
-	         * Validate the authentication.
-	         *
-	         * @return null if validation ok, string with details otherwise
-	         */
-	        public String validate() {
-	            if (isBlank(email)) {
-	                return "Email is required";
-	            }
-
-	            if (isBlank(inputPassword)) {
-	                return "Password is required";
-	            }
-	            
-	            if (! accept) {
-	            	return "please accept terms and conditions";
-	            }
-
-	            return null;
-	        }
-
-	        private boolean isBlank(String input) {
-	            return input == null || input.isEmpty() || input.trim().isEmpty();
-	        }
-	    }
+	 }
 
 	  private static void sendMailAskForConfirmation(User user) throws EmailException, MalformedURLException {
 	        String subject = Messages.get("mail.confirm.subject");
@@ -126,5 +103,44 @@ public class Application extends Controller {
 	        Mail.sendMail(envelop);
 	    }
 	 
+	    public static Result confirm(String token) {
+	        User user = User.findByConfirmationToken(token);
+	        if (user == null) {
+	            flash("error", Messages.get("error.unknown.email"));
+	            return badRequest(confirm.render());
+	        }
 
+	        if (user.validated) {
+	            flash("error", Messages.get("error.account.already.validated"));
+	            return badRequest(confirm.render());
+	        }
+
+	        try {
+	            if (User.confirm(user)) {
+	                sendMailConfirmation(user);
+	                flash("success", Messages.get("account.successfully.validated"));
+	                return ok(confirm.render());
+	            } else {
+	                Logger.debug("Signup.confirm cannot confirm user");
+	                flash("error", Messages.get("error.confirm"));
+	                return badRequest(confirm.render());
+	            }
+	        } catch (AppException e) {
+	            Logger.error("Cannot signup", e);
+	            flash("error", Messages.get("error.technical"));
+	        } catch (EmailException e) {
+	            Logger.debug("Cannot send email", e);
+	            flash("error", Messages.get("error.sending.confirm.email"));
+	        }
+	        return badRequest(confirm.render());
+	    }
+	    
+	    private static void sendMailConfirmation(User user) throws EmailException {
+	        String subject = Messages.get("mail.welcome.subject");
+	        String message = Messages.get("mail.welcome.message");
+	        Mail.Envelop envelop = new Mail.Envelop(subject, message, user.email);
+	        Mail.sendMail(envelop);
+	    }
+	  
+	  
 }

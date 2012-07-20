@@ -8,6 +8,7 @@ create table user (
   password                  varchar(255),
   email                     varchar(255),
   confirmation_token        varchar(255),
+  validated                 boolean,
   constraint pk_user primary key (id))
 ;
 

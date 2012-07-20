@@ -1,4 +1,4 @@
-@(signupForm: Form[Application.Register])
+@(registerForm: Form[Application.Register])
 
 @import helper._
 
@@ -19,10 +19,10 @@
 				@form(action = routes.Application.signup(), 'class -> "well") {
 					<h3>New To FlatFrog?</h3>
 					<h4>Sign up now!</h4>
-        			<input type="password" placeholder="Password" value="@signupForm("inputPassword").value"/>
-					<input type="email" placeholder="Email" value="@signupForm("email").value"/>
+        			<input type="email" name="email" required="required" placeholder="Email" value="@registerForm("email").value"/>
+        			<input type="password" name="inputPassword" required="required" placeholder="Password" value="@registerForm("inputPassword").value"/>
 					<label class="checkbox">
-						<input type="checkbox" value="@signupForm("accept")"> Accept terms and conditions
+						<input type="checkbox" name="accept"> Accept terms and conditions
 					</label> 
 					<a data-toggle="modal" href="#termsAndConditions">Read terms and conditions</a>
 					<button type="submit" class="btn btn-primary">Sign up for FlatFrog</button>
