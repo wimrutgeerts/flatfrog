@@ -94,14 +94,20 @@ public class Application extends Controller {
 	  private static void sendMailAskForConfirmation(User user) throws EmailException, MalformedURLException {
 	        String subject = Messages.get("mail.confirm.subject");
 
-	        String urlString = "http://" + Configuration.root().getString("server.hostname");
-	        urlString += "/confirm/" + user.confirmationToken;
-	        URL url = new URL(urlString); // validate the URL, will throw an exception if bad.
-	        String message = Messages.get("mail.confirm.message", url.toString());
+	        URL url = getSignUpRequest(user);
+	        
+	        String message =url.toString();
 
 	        Mail.Envelop envelop = new Mail.Envelop(subject, message, user.email);
 	        Mail.sendMail(envelop);
 	    }
+
+	private static URL getSignUpRequest(User user) throws MalformedURLException {
+		String urlString = "http://" + Configuration.root().getString("server.hostname");
+		urlString += "/confirm/" + user.confirmationToken;
+		URL url = new URL(urlString);
+		return url;
+	}
 	 
 	    public static Result confirm(String token) {
 	        User user = User.findByConfirmationToken(token);
