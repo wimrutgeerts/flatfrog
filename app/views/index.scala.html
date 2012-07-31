@@ -1,4 +1,4 @@
-@(registerForm: Form[Application.Register])
+@(registerForm: Form[Application.Register], loginForm: Form[Application.Login])
 
 @import helper._
 
@@ -12,8 +12,9 @@
 			</div>
 			<div class="span3">
 				@form(action = routes.Application.authenticate(), 'class -> "well") {
-					<input type="email" placeholder="Email" />
-					<input type="password" class="input-medium" placeholder="Password" />
+					<h3>Login</h3>
+					<input type="email" placeholder="Email" value="@loginForm("email").value"/>
+					<input type="password" class="input-medium" placeholder="Password"  value="@loginForm("inputPassword").value"/>
 					<button type="submit" class="btn btn-primary" style="vertical-align:top;">Sign in</button>
     			}
 				@form(action = routes.Application.signup(), 'class -> "well") {

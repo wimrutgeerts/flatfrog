@@ -40,5 +40,10 @@ public class User extends Model {
         user.save();
         return true;
     }
+
+	public static boolean authenticate(String email2, String createPassword) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 }

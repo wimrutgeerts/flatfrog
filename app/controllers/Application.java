@@ -22,24 +22,35 @@ import play.mvc.Results;
 import views.html.index;
 import views.html.created;
 import views.html.confirm;
+import views.html.dashboard;
 
 public class Application extends Controller {
 
 	public static Form<Application.Register> registerForm  = form(Application.Register.class);
+	public static Form<Application.Login> loginForm  = form(Application.Login.class);
 	
 	public static Result index() {
-		return Results.ok(index.render(registerForm));
+		return Results.ok(index.render(registerForm, loginForm));
 	}
 
 	public static Result authenticate() {
-		return Results.TODO;
+		 Form<Application.Login> loginForm = form(Application.Login.class).bindFromRequest();
+
+		try{
+		if (User.authenticate(loginForm.get().email, Hash.createPassword(loginForm.get().inputPassword))){
+			return Results.ok(dashboard.render());
+		}
+		}catch(AppException appException){
+			return TODO;
+		}		
+		return TODO;
 	}
 
 	public static Result signup() {
 		 Form<Application.Register> registerForm = form(Application.Register.class).bindFromRequest();
 
 		 if (registerForm.hasErrors()) {
-	            return badRequest(index.render(registerForm));
+	            return badRequest(index.render(registerForm, loginForm));
 	        }
 
 	        Application.Register register = registerForm.get();
@@ -66,14 +77,14 @@ public class Application extends Controller {
 	            Logger.error("Signup.save error", e);
 	            flash("error", Messages.get("error.technical"));
 	        }
-	        return badRequest(index.render(registerForm));
+	        return badRequest(index.render(registerForm, loginForm));
 	}
 	
 	private static Result checkBeforeSave(Form<Application.Register> registerForm, String email) {
         // Check unique email
         if (User.findByEmail(email) != null) {
             flash("error", Messages.get("error.email.already.exist"));
-            return badRequest(index.render(registerForm));
+            return badRequest(index.render(registerForm, loginForm));
         }
 
         return null;
@@ -91,6 +102,16 @@ public class Application extends Controller {
 
 	 }
 
+
+	 public static class Login {
+
+		@Required
+		public String email;
+		@Required
+		public String inputPassword;
+
+	 }
+	 
 	  private static void sendMailAskForConfirmation(User user) throws EmailException, MalformedURLException {
 	        String subject = Messages.get("mail.confirm.subject");
 
