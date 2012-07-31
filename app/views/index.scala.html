@@ -13,8 +13,8 @@
 			<div class="span3">
 				@form(action = routes.Application.authenticate(), 'class -> "well") {
 					<h3>Login</h3>
-					<input type="email" placeholder="Email" value="@loginForm("email").value"/>
-					<input type="password" class="input-medium" placeholder="Password"  value="@loginForm("inputPassword").value"/>
+					<input type="email" name="email" placeholder="Email" value="@loginForm("email").value"/>
+					<input type="password" name="inputPassword" class="input-medium" placeholder="Password"  value="@loginForm("inputPassword").value"/>
 					<button type="submit" class="btn btn-primary" style="vertical-align:top;">Sign in</button>
     			}
 				@form(action = routes.Application.signup(), 'class -> "well") {
