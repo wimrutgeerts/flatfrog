@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import models.utils.AppException;
+import models.utils.Hash;
 
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -29,6 +30,16 @@ public class User extends Model {
     public static User findByConfirmationToken(String token) {
         return find.where().eq("confirmationToken", token).findUnique();
     }
+
+	public static boolean authenticate(String email, String unHashedPassword) {
+        User user = find.where().eq("email", email).findUnique();
+        if (user != null) {
+            if (Hash.checkPassword(unHashedPassword, user.password)) {
+              return true;
+            }
+        }
+        return false;
+	}
     
     public static boolean confirm(User user) throws AppException {
         if (user == null) {
@@ -40,10 +51,5 @@ public class User extends Model {
         user.save();
         return true;
     }
-
-	public static boolean authenticate(String email2, String createPassword) {
-		// TODO Auto-generated method stub
-		return true;
-	}
 	
 }
