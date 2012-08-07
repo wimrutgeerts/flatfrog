@@ -36,13 +36,25 @@ public class Application extends Controller {
 	public static Result authenticate() {
 		Form<Application.Login> loginForm = form(Application.Login.class).bindFromRequest();
 
-		if (User.authenticate(loginForm.get().email, loginForm.get().inputPassword)){
-			return Results.ok(dashboard.render());
+		User loggedInUser = User.authenticate(loginForm.get().email, loginForm.get().inputPassword);
+		if (loggedInUser != null){
+			session("email", loginForm.get().email);
+			return Results.ok(dashboard.render(loggedInUser));
 		}
 		flash("error", Messages.get("error.wrong.username.or.password"));
 		return Results.badRequest(index.render(registerForm, loginForm));
 	}
+	
+	public static Result authenticateFromSession() {
+		return Results.ok(dashboard.render(User.findByEmail(ctx().session().get("email"))));
+	}
 
+	public static Result alReadySignedUp(){
+		flash("error", Messages.get("check.email.for.confirmationmail"));
+		 return ok(created.render());
+	}
+	
+	
 	public static Result signup() {
 		 Form<Application.Register> registerForm = form(Application.Register.class).bindFromRequest();
 

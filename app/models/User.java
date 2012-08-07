@@ -31,14 +31,14 @@ public class User extends Model {
         return find.where().eq("confirmationToken", token).findUnique();
     }
 
-	public static boolean authenticate(String email, String unHashedPassword) {
+	public static User authenticate(String email, String unHashedPassword) {
         User user = find.where().eq("email", email).findUnique();
         if (user != null) {
             if (Hash.checkPassword(unHashedPassword, user.password)) {
-              return true;
+              return user;
             }
         }
-        return false;
+        return null;
 	}
     
     public static boolean confirm(User user) throws AppException {

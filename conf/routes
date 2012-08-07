@@ -4,8 +4,11 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+GET		/authenticate				controllers.Application.authenticateFromSession()
 POST	/authenticate				controllers.Application.authenticate()
+GET		/signup						controllers.Application.alReadySignedUp()
 POST	/signup						controllers.Application.signup()
+
 
 GET     /confirm/:confirmToken      controllers.Application.confirm(confirmToken:String)
 
