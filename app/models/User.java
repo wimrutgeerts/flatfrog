@@ -20,6 +20,7 @@ public class User extends Model {
 	
 	@Formats.NonEmpty
     public Boolean validated = false;
+	public String googleAccessToken;
 	
 	public static Model.Finder<Long, User> find = new Model.Finder<Long, User>(Long.class, User.class);
 

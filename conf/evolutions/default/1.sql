@@ -9,6 +9,7 @@ create table user (
   email                     varchar(255),
   confirmation_token        varchar(255),
   validated                 boolean,
+  google_access_token       varchar(255),
   constraint pk_user primary key (id))
 ;
 

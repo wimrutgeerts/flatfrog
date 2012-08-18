@@ -4,7 +4,14 @@
 
 @master {
 <div class="row">
-Welcome @loggedInUser.email to your flatfrog account 
+Welcome @loggedInUser.email to your flatfrog account
+token  @loggedInUser.googleAccessToken 
+
+@form(action = routes.DashBoard.googleLogin(loggedInUser.email), 'class -> "well") {
+		<h3>Facebook Login</h3>
+		<button type="submit" class="btn btn-primary" style="vertical-align:top;">Sign in</button>
+}
+
 			
 </div>
 

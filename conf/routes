@@ -9,8 +9,10 @@ POST	/authenticate				controllers.Application.authenticate()
 GET		/signup						controllers.Application.alReadySignedUp()
 POST	/signup						controllers.Application.signup()
 
-
 GET     /confirm/:confirmToken      controllers.Application.confirm(confirmToken:String)
+GET		/googleOauth2Callback/		controllers.DashBoard.googleCallback()
+
+POST	/googleLogin				controllers.DashBoard.googleLogin(email:String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
