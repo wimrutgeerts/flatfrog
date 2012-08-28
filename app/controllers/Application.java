@@ -35,18 +35,30 @@ public class Application extends Controller {
 
 	public static Result authenticate() {
 		Form<Application.Login> loginForm = form(Application.Login.class).bindFromRequest();
-
+//////////
+//	   User user = new User();
+//       user.email = loginForm.get().email;
+//       try {
+//		user.password = Hash.createPassword(loginForm.get().inputPassword);
+//	} catch (AppException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
+//		if(User.findByEmail(loginForm.get().email)!= null) user = User.findByEmail(loginForm.get().email);
+//	
+//       user.save();
+	/////////	
 		User loggedInUser = User.authenticate(loginForm.get().email, loginForm.get().inputPassword);
 		if (loggedInUser != null){
 			session("email", loginForm.get().email);
-			return Results.ok(dashboard.render(loggedInUser));
+			return Results.ok(dashboard.render(loggedInUser, DashBoard.eventForm));
 		}
 		flash("error", Messages.get("error.wrong.username.or.password"));
 		return Results.badRequest(index.render(registerForm, loginForm));
 	}
 	
 	public static Result authenticateFromSession() {
-		return Results.ok(dashboard.render(User.findByEmail(ctx().session().get("email"))));
+		return Results.ok(dashboard.render(User.findByEmail(ctx().session().get("email")), DashBoard.eventForm));
 	}
 
 	public static Result alReadySignedUp(){

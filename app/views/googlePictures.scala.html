@@ -1,0 +1,14 @@
+@(loggedInUser : User, pictures: List[String])
+
+@import helper._
+
+@master {
+<div class="row">
+		 @for(picture <- pictures) {
+		 	<img src="@picture">
+		 }	
+</div>
+
+}
+
+

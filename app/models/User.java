@@ -1,7 +1,11 @@
 package models;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import models.utils.AppException;
 import models.utils.Hash;
@@ -21,6 +25,9 @@ public class User extends Model {
 	@Formats.NonEmpty
     public Boolean validated = false;
 	public String googleAccessToken;
+	
+	@OneToMany(cascade=CascadeType.PERSIST)
+	public List<Event> registeredEvents;
 	
 	public static Model.Finder<Long, User> find = new Model.Finder<Long, User>(Long.class, User.class);
 
