@@ -4,7 +4,7 @@
 
 @master {
 <div class="row">
-	Welcome @loggedInUser.email to your flatfrog account
+	Welcome @loggedInUser.googleAccessToken to your flatfrog account
 </div>
 <div class="row">
 	<div class="span2">
@@ -60,12 +60,16 @@
   <div class="modal-header">
 
    	<button type="button" class="close" data-dismiss="modal">x</button>
-    <h3>Add pictures to: </h3><div id="picturePanelEventName"></div> 
+    <h3>Add pictures to: </h3><h3 id="picturePanelEventName"></h3> 
   	</div>
 
 	  <div class="modal-body">
 	    <p>
-	   
+	   		<div id="googleDrivePictures">
+   				@form(action = routes.DashBoard.googleLogin(), 'class -> "well") {
+					<button type="submit" class="btn btn-primary">Google Sign in</button>
+				}
+	   		</div>
 	    </p>
     </div>
   <div class="modal-footer">

@@ -24,6 +24,7 @@ create table user (
   confirmation_token        varchar(255),
   validated                 boolean,
   google_access_token       varchar(255),
+  google_access_code        varchar(255),
   constraint pk_user primary key (id))
 ;
 

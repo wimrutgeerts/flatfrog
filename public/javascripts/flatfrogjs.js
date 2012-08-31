@@ -20,12 +20,11 @@ function getRegisteredEvents(email){
 	            	  var eventNamePanel = document.createElement('h3');
 	            	  eventNamePanel.innerHTML = event.eventName;
 	            	  eventPanel.appendChild(eventNamePanel);
-	            	  var addNewPictureButton = document.createElement('button');
-	            	  addNewPictureButton.setAttribute('type','submit');
+	            	  var addNewPictureButton = document.createElement('a');
 	            	  addNewPictureButton.setAttribute('class','btn btn-small btn-success');
-	            	  addNewPictureButton.setAttribute('data-togle','modal');
+	            	  addNewPictureButton.setAttribute('data-toggle','modal');
 	            	  addNewPictureButton.setAttribute('href','#addPictures')
-	            	  addNewPictureButton.setAttribute('onclick','setPicturePanel(\''+event.eventName+'\')');
+	            	  addNewPictureButton.setAttribute('onclick','loadGoogleDrivePictures(); setPicturePanel(\''+event.eventName+'\')');
 	            	  addNewPictureButton.innerHTML = 'Add pictures to this event...';
 	            	  eventPanel.appendChild(addNewPictureButton);
 	            	  
@@ -46,5 +45,11 @@ function getRegisteredEvents(email){
 }
 
 function setPicturePanel(eventName) {
-	document.getElementById('picturePanelEventName').innerHTML = eventName;
+	 document.getElementById('picturePanelEventName').innerHTML = eventName;
+}
+function loadGoogleDrivePictures(){
+	$.getJSON('/getGoogleDriveImages',
+	          function(events) {
+				document.getElementById('userEvents').innerHTML = ""; 
+	          });
 }

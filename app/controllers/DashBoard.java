@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonNode;
+
 import models.Event;
 import models.EventPicture;
 import models.User;
@@ -73,7 +75,7 @@ public class DashBoard extends Controller {
 		
 	}
 	
-	public static Result googleLogin(String email) {
+	public static Result googleLogin() {
 
 		Oauth2Url url = new Oauth2Url(
 				"code", 
@@ -90,38 +92,45 @@ public class DashBoard extends Controller {
 	public static Result googleCallback(){
 		User loggedInUser = User.findByEmail(ctx().session().get("email"));
 		
-		loggedInUser.googleAccessToken = request().queryString().get("code")[0];
+		loggedInUser.googleAccessCode = request().queryString().get("code")[0];
 		loggedInUser.save();
-//		Promise<Response> promise = 
-//			WS.url("accounts.google.com/o/oauth2/token HTTP/1.1")
-//				.setHeader("Content-Type", "pplication/x-www-form-urlencoded")
-//				.post(getPostbody(""));
-//		promise.map(new Function<WS.Response, String>() {
-//
-//			@Override
-//			public String apply(Response arg0) throws Throwable {
-//				
-//				String test = "1";
-//				return test;
-//			}
-//		});
-		
+		Promise<Response> post = WS.url("http://accounts.google.com/o/oauth2/token")
+		.setHeader("Content-Type", "application/x-www-form-urlencoded")
+		.post(getPostbody(loggedInUser.googleAccessCode));
+
+		post.map(new GoogleCallbackFunction(loggedInUser));
 		
 		return Results.ok(dashboard.render(loggedInUser, eventForm));
 	}
 	private static String getPostbody(String code) {
 		StringBuilder post = new StringBuilder();
-		post.append("code=").append(code).append("&");
+		post.append("code=").append(code).append(code+"&");
 		post.append("client_id=").append("656718308348.apps.googleusercontent.com").append("&");
 		post.append("client_secret=").append("KLVditchXNHW2qP4lr64gyP3").append("&");
-		post.append("redirect_uri=").append("http://localhost:9000/googleOauth2PostCallback/").append("&");
+		post.append("redirect_uri=").append("http://localhost:9000/googleOauth2Callback/").append("&");
 		post.append("grant_type=").append("authorization_code").append("&");
 		return post.toString();
 	}
-	/*code=4/P7q7W91a-oMsCeLvIaQm6bTrgtp7&
-	client_id=8819981768.apps.googleusercontent.com&
-	client_secret={client_secret}&
-	redirect_uri=https://oauth2-login-demo.appspot.com/code&
-	grant_type=authorization_code
-	*/	
+	
+	private static class GoogleCallbackFunction implements  Function<WS.Response, String> {
+
+		private final User loggedInUser;
+
+		public GoogleCallbackFunction(User loggedInUser) {
+			this.loggedInUser = loggedInUser;
+
+		}
+
+		@Override
+		public String apply(Response arg0) throws Throwable {
+			JsonNode jsonResponse = arg0.asJson();
+			jsonResponse.get("access_token");
+			jsonResponse.get("token_type");
+			jsonResponse.get("expires_in");
+			jsonResponse.get("id_token");
+			loggedInUser.googleAccessToken = jsonResponse.get("access_token").getTextValue();
+			loggedInUser.save();
+			return null;
+		}
+	}
 }

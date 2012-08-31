@@ -25,6 +25,7 @@ public class User extends Model {
 	@Formats.NonEmpty
     public Boolean validated = false;
 	public String googleAccessToken;
+	public String googleAccessCode;
 	
 	@OneToMany(cascade=CascadeType.PERSIST)
 	public List<Event> registeredEvents;
