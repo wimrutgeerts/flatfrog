@@ -38,6 +38,19 @@ public class DashBoard extends Controller {
 		return ok(Json.toJson(loggedInUser.registeredEvents));
 	}
 	
+	public static Result getGooglePictures(){
+		String email = request().username();
+		User loggedInUser = User.findByEmail(email);
+		
+		Promise<Response> responseGooglePictures = WS.url("https://www.googleapis.com/drive/v2/files")
+			.setQueryParameter("access_token", loggedInUser.googleAccessToken)
+			.setQueryParameter("q", "mimeType = 'image/jpeg'") 
+ 			.get();
+		
+		return ok(Json.toJson(responseGooglePictures.map(new googlePicturePromise()).get()));
+		
+	}
+	
 	public static Result createEvent(){
 		Map parameters = request().body().asFormUrlEncoded();
 		String email = request().username();
@@ -67,6 +80,22 @@ public class DashBoard extends Controller {
 		
 		return result;
 		
+	}
+
+	public static final class googlePicturePromise implements
+			Function<WS.Response, List<UserImage>> {
+		@Override
+		public List<UserImage> apply(Response arg0) throws Throwable {
+			List<UserImage> userImages = new ArrayList<UserImage>();
+			JsonNode images = arg0.asJson().get("items");
+			for (JsonNode image : images) {
+				UserImage userimg = new UserImage();
+				userimg.thumbnailUrl = image.get("thumbnailLink").asText();
+				userimg.name = image.get("title").asText();
+				userImages.add(userimg);
+			}
+			return userImages;
+		}
 	}
 
 	public static class EventForm{

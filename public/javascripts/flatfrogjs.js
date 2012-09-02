@@ -48,8 +48,21 @@ function setPicturePanel(eventName) {
 	 document.getElementById('picturePanelEventName').innerHTML = eventName;
 }
 function loadGoogleDrivePictures(){
-	$.getJSON('/getGoogleDriveImages',
-	          function(events) {
-				document.getElementById('userEvents').innerHTML = ""; 
+	$.getJSON('/getGooglePictures',
+	          function(userImages) {
+				document.getElementById('googleDrivePictures').innerHTML = ""; 
+				 var row1 =  document.createElement('div');
+				 row1.setAttribute('class', 'row');
+				$.each(userImages, function(key, userImage) {
+					 var span1 = document.createElement('div');
+        			 span1.setAttribute('class', 'span1');
+        			 var img = document.createElement('img');
+        			 img.setAttribute('src', userImage.thumbnailUrl);
+        			 
+        			 span1.appendChild(img);
+        			 row1.appendChild(span1);
+				});
+				document.getElementById('googleDrivePictures').appendChild(row1);
 	          });
+			;
 }
