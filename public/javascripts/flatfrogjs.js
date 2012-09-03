@@ -1,11 +1,11 @@
-function createNewEvent(email){
+function createNewEvent(){
 	$.post('/createEvent',
 		      {'eventName':document.getElementById('eventName').value},
 		      function(data) {
-		    	  getRegisteredEvents(email);
+		    	  getRegisteredEvents();
 		      });
 }
-function getRegisteredEvents(email){
+function getRegisteredEvents(){
 	
 	$.getJSON('/getRegisteredEvents',
 	          function(events) {

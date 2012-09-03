@@ -1,25 +1,17 @@
 package models.utils;
 
-import akka.actor.ActorRef;
-import akka.actor.Props;
-import akka.dispatch.ExecutionContextExecutorService;
-import akka.dispatch.*;
-import akka.util.Duration;
-import akka.util.FiniteDuration;
-import akka.util.Timeout;
-
-import akka.dispatch.ExecutionContexts;
-import akka.dispatch.ExecutionContextExecutorService;
-
-import com.typesafe.plugin.MailerAPI;
-import com.typesafe.plugin.MailerPlugin;
-import play.Configuration;
-import play.Logger;
-import play.libs.Akka;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import play.Configuration;
+import play.Logger;
+import play.libs.Akka;
+import akka.util.Duration;
+import akka.util.FiniteDuration;
+
+import com.typesafe.plugin.MailerAPI;
+import com.typesafe.plugin.MailerPlugin;
 
 /**
  * Send a mail with Play20StartApp.

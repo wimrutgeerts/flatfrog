@@ -13,12 +13,10 @@ GET		/getRegisteredEvents		controllers.DashBoard.getRegisteredEvents()
 
 GET     /confirm/:confirmToken      controllers.Application.confirm(confirmToken:String)
 GET		/googleOauth2Callback/		controllers.DashBoard.googleCallback()
-GET		/getGooglePictures				controllers.DashBoard.getGooglePictures()
+GET		/getGooglePictures			controllers.DashBoard.getGooglePictures()
 
 POST	/googleLogin				controllers.DashBoard.googleLogin()
 POST	/createEvent				controllers.DashBoard.createEvent()
-
-POST	/googlePictures				controllers.GooglePictures.showPictures(email:String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

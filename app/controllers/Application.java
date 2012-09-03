@@ -4,25 +4,25 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.UUID;
 
-import org.apache.commons.mail.EmailException;
-
 import models.User;
 import models.utils.AppException;
 import models.utils.Hash;
 import models.utils.Mail;
+
+import org.apache.commons.mail.EmailException;
+
 import play.Configuration;
 import play.Logger;
 import play.data.Form;
-import play.data.validation.Constraints;
 import play.data.validation.Constraints.Required;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import views.html.index;
-import views.html.created;
 import views.html.confirm;
+import views.html.created;
 import views.html.dashboard;
+import views.html.index;
 
 public class Application extends Controller {
 

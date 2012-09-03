@@ -5,11 +5,10 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import models.utils.AppException;
 import models.utils.Hash;
-
 import play.data.format.Formats;
 import play.db.ebean.Model;
 
@@ -27,7 +26,7 @@ public class User extends Model {
 	public String googleAccessToken;
 	public String googleAccessCode;
 	
-	@OneToMany(cascade=CascadeType.PERSIST)
+	@ManyToMany(cascade=CascadeType.PERSIST)
 	public List<Event> registeredEvents;
 	
 	public static Model.Finder<Long, User> find = new Model.Finder<Long, User>(Long.class, User.class);
